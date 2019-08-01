@@ -2,6 +2,12 @@ screen_titles_ui <- function(){
 
   # build user interface
   header <- shinydashboard::dashboardHeader(
+    tag("li",
+      list(
+        class = "dropdown",
+        uiOutput("progress_text")
+      )
+    ),
     title = plotOutput("header")
   )
 
@@ -11,16 +17,25 @@ screen_titles_ui <- function(){
       menuItem("Data",
         icon = shiny::icon("bar-chart-o"),
         startExpanded = TRUE,
-        fileInput("data_in", label = "Import"),
+        fileInput(
+          inputId = "data_in",
+          label = "Import",
+          multiple = TRUE
+        ),
         actionButton(
           inputId = "save_data",
           label = "Save Data",
-          width = "80%"
+          width = "85%"
         ),
         actionButton(
           inputId = "clear_data",
           label = "Clear Data",
-          width = "80%"
+          width = "85%"
+        ),
+        actionButton(
+          inputId = "exit_app",
+          label = "Exit App",
+          width = "85%"
         ),
         br()
       ),
@@ -31,7 +46,7 @@ screen_titles_ui <- function(){
           label = "Number of articles shown",
           min = 2,
           max = 20,
-          value = 10,
+          value = 8,
           step = 2
         ),
         selectInput(
@@ -40,8 +55,15 @@ screen_titles_ui <- function(){
           choices = list(
             "Input" = "order_initial",
             "Random" = "order_random",
-            "Alphabetical" = "order_alphabetical"
+            "Alphabetical" = "order_alphabetical",
+            "User-defined" = "order_selected"
           )
+        ),
+        uiOutput("column_selector"),
+        actionButton(
+          inputId = "order_result_go",
+          label = "Re-order",
+          width = "85%"
         ),
         selectInput("hide_names",
           label = "Hide identifying information?",
@@ -55,34 +77,20 @@ screen_titles_ui <- function(){
   body <- shinydashboard::dashboardBody(
     revtools_css(),
     fluidRow(
-      shiny::div(id = "placeholder"),
-      br(),
-      div(
-        style = "
-          display: inline-block;
-          vertical-align: top;
-          width: 10px",
-        HTML("<br>")
-      ),
+      div(id = "placeholder"),
       div(
         style = "
           display: inline-block;
           vertical-align: top;",
-        uiOutput("next_group")
+        uiOutput("select_all_buttons")
       ),
+      br(),
+      br(),
       div(
         style = "
           display: inline-block;
-          vertical-align: top;
-          width: 10px",
-        HTML("<br>")
-      ),
-      div(
-        style = "
-          display: inline-block;
-          vertical-align: top;
-          width: 200px",
-        tableOutput("progress_text")
+          vertical-align: top;",
+        uiOutput("navigation_buttons")
       )
     )
   )

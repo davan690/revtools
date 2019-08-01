@@ -1,74 +1,77 @@
 # function to launch a shiny app for topic model visualisation & article/word (de)selection
-start_review_window <- function(x, remove_words){
-  screen_topics(x, remove_words)
+start_review_window <- function(x, remove_words, max_file_size){
+  screen_topics(x, remove_words, max_file_size)
 }
 
-screen_topics <- function(x, remove_words){
+screen_topics <- function(
+  x = NULL,
+  remove_words = NULL,
+  max_file_size
+){
 
-  if(missing(x)){x <- NULL}
-  if(!is.null(x)){
+# set file size if requested, ensuring to reset on exit
+if(!missing(max_file_size)){
+  initial_file_size <- options("shiny.maxRequestSize")
+  options(shiny.maxRequestSize = max_file_size * 1024^2)
+  on.exit(options(initial_file_size))
+}
 
-    # throw a warning if a known file type isn't given
-    accepted_inputs <- c("bibliography", "data.frame")
-    if(any(accepted_inputs == class(x)) == FALSE){
-      stop("only classes 'bibliography' or 'data.frame' accepted by screen_visual")}
-
-    if(class(x) == "bibliography"){
-      x <- as.data.frame(x)
-    }
-
-    x <- add_required_columns(data = x)
-  }
-
-  # add colnames
-  if(is.null(x)){
-    input_colnames <- NULL
-  }else{
-    input_colnames <- colnames(x)[
-      which(
-        (colnames(x) %in%
-        c("selected", "topic", "display", "notes")
-        ) == FALSE
-      )
-    ]
-  }
-
-  if(missing(remove_words)){
-    remove_words <- stopwords()
-  }else{
-    remove_words <- as.character(remove_words)
-  }
-
+data_in <- load_topic_data(
+  data = x,
+  stopwords = remove_words
+)
 
 # create ui
 ui_data <- screen_topics_ui()
 ui <- shinydashboard::dashboardPage(
   title = "revtools | screen_topics",
-	ui_data$header,
-	ui_data$sidebar,
-	ui_data$body,
-	skin = "black"
+  header = ui_data$header,
+  sidebar = ui_data$sidebar,
+  body = ui_data$body,
+  skin = "black"
 )
 
 # start server
-server<-function(input, output, session){
+server <- function(input, output, session){
 
   options(warn = -1) # hide incompatibility between shiny and plotly
   # https://github.com/hrbrmstr/metricsgraphics/issues/49
 
-  # establish reactiveValues objects
+  # establish a reactiveValue object to store data
   data <- reactiveValues(
-    raw = x,
-    stopwords = remove_words,
-    columns = input_colnames,
-    grouped = NULL,
-    dtm = NULL,
-    model = NULL,
-    plot_ready = NULL
+    raw = data_in$raw,
+    stopwords = data_in$stopwords,
+    columns = data_in$columns,
+    grouped = data_in$grouped,
+    dtm = data_in$dtm,
+    model = data_in$model,
+    plot_ready = data_in$plot_ready
   )
+
+  # need to run some extra code here if class screen_topics_progress is used
+  if(!is.null(data_in$model)){
+    palette_initial <- viridis(
+      n = data_in$model@k,
+      alpha = 0.9,
+      begin = 0.1,
+      end = 0.9,
+      option = "A"
+    )
+    appearance_initial <- build_appearance(
+      plot_data = data_in$plot_ready,
+      palette = palette_initial
+    )
+  }else{
+    palette_initial <- NULL
+    appearance_initial <- NULL
+  }
+
+  # add remaining reactiveValue objects
   plot_features <- reactiveValues(
-    palette = NULL,
-    appearance = NULL
+    palette = palette_initial,
+    appearance = appearance_initial,
+    notes = FALSE,
+    common_words = FALSE
   )
   click_data <- reactiveValues(
     main = c(),
@@ -77,7 +80,6 @@ server<-function(input, output, session){
     word = c()
   )
   words <- reactiveValues(
-    stop = tm::stopwords(),
     current = NULL,
     rows = NULL,
     search_results = NULL,
@@ -85,8 +87,7 @@ server<-function(input, output, session){
     selected = NULL
   )
 
-
-  # CREATE HEADER IMAGE
+  # create header image
   output$header <- renderPlot({
     revtools_logo(text = "screen_topics")
   })
@@ -94,24 +95,63 @@ server<-function(input, output, session){
   # DATA INPUT
   ## when specified, ensure input data is processed correctly
   observeEvent(input$data_in, {
-    if(is.null(data$raw)){
-      data_in <- x
-    }else{
-      data_in <- data$raw
-    }
-    import_result <- import_shiny(
+    data_loaded <- import_shiny_topic_data(
       source = input$data_in,
-      current_data = data_in
+      current_data = data
     )
-    data$raw <- add_required_columns(
-      data = import_result
-    )
-    data$columns <- colnames(data$raw)[
-      which(
-        (colnames(data$raw) %in%
-        c("selected", "topic", "display", "notes")) == FALSE
+    data$raw <- data_loaded$raw
+    data$columns <- data_loaded$columns
+    data$grouped <- data_loaded$grouped
+    data$dtm <- data_loaded$dtm
+    data$model <- data_loaded$model
+    data$plot_ready <- data_loaded$plot_ready
+
+    # need to run some extra code here if class screen_topics_progress is used
+    if(!is.null(data$model)){
+
+      # create color palette
+      plot_features$palette <- viridis(
+        n = data$model@k,
+        alpha = 0.9,
+        begin = 0.1,
+        end = 0.9,
+        option = "A"
       )
-    ]
+
+      # add appearance info
+      plot_features$appearance <- build_appearance(
+        plot_data = data$plot_ready,
+        palette = plot_features$palette
+      )
+
+    }
+  })
+
+  # show number of articles in current dataset
+  output$progress_text <- renderText({
+    if(!is.null(data$raw)){
+      HTML(
+        paste0(
+          length(which(!is.na(data$raw$selected))),
+          " of ",
+          nrow(data$raw),
+          " entries screened"
+        )
+      )
+    }
+  })
+
+  # duplicate of above for 'words' screen
+  output$selector_n2 <- renderPrint({
+    if(!is.null(data$raw)){
+      cat(paste0(
+        "Dataset containing ",
+        nrow(data$raw),
+        " entries | ",
+        length(which(!is.na(data$raw$selected))),
+        " screened<br><br>"
+      ))
+    }
   })
 
   # add option to remove data
@@ -208,7 +248,7 @@ server<-function(input, output, session){
       plot_features$appearance <- NULL
 
       # choose which rows to use for later calculation
-      if(all(is.na(data$raw$selected)) == FALSE){
+      if(!all(is.na(data$raw$selected))){
         data$raw$display[which(is.na(data$raw$selected) == FALSE)] <- FALSE
       }
 
@@ -218,24 +258,31 @@ server<-function(input, output, session){
         response_variable = input$response_variable,
         text_variables = input$variable_selector
       )
-      data$dtm <- make_DTM(
+      data$dtm <- make_dtm(
         x = data$grouped$text,
-        stop_words = data$stopwords
+        stop_words = data$stopwords,
+        min_freq = input$min_freq * 0.01,
+        max_freq = input$max_freq * 0.01
       )
+
+      if(input$response_variable != data$columns[1]){
+        plot_features$common_words <- TRUE
+      }else{
+        plot_features$common_words <- FALSE
+      }
 
       # check for rows with no words; update to ensure all entries in 'data' match one another
       dtm_rowsums <- apply(data$dtm, 1, sum)
       if(any(dtm_rowsums == 0)){
-        data$raw$display[which(data$raw$display)[which(dtm_rowsums == 0)]] <- FALSE
         keep_rows <- which(dtm_rowsums > 0)
-        data$grouped$x <- data$grouped$x[keep_rows, ]
+        data$grouped <- data$grouped[keep_rows, ]
         data$dtm <- data$dtm[keep_rows, ]
       }
 
       # calculate topic model
-      data$model <- run_LDA(
+      data$model <- run_topic_model(
         dtm = data$dtm,
-        topic_model = tolower(input$model_type),
+        type = tolower(input$model_type),
         n_topics = input$n_topics,
         iterations = input$n_iterations
       )
@@ -257,33 +304,23 @@ server<-function(input, output, session){
         option = "A"
       )
 
-      # add topic to data$raw,
-      # noting that this data have been split in create_grouped_dataframe(),
-      # which affects the order
-      topic_dframe <- data.frame(
-        variable = sort(unique(
-          data$raw[which(data$raw$display), input$response_variable]
-        )),
-        topic = topicmodels::topics(data$model),
-        stringsAsFactors = FALSE
-      )
-      result <- base::merge(
-        x = data.frame(
-          data$raw[, which(colnames(data$raw) != "topic")],
-          order = seq_len(nrow(data$raw)),
-          stringsAsFactors = FALSE
-        ),
-        y = topic_dframe,
-        by.x = input$response_variable,
-        by.y = "variable",
-        all.x = TRUE,
-        all.y = FALSE,
-        sort = FALSE
-      )
-      data$raw <- result[, which(colnames(result) != "order")]
-      # issue with this approach is that it causes columns to be reordered;
-      # input$response variable is now first.
-      # might be worth using lapply() or similar instead of merge()
+      # add topic to data$raw
+      data$grouped$topic <- topicmodels::topics(data$model)
+      data$raw$topic <- unlist(lapply(
+        data$raw[, input$response_variable],
+        function(a, lookup){
+          if(is.na(a)){
+            NA
+          }else{
+            if(any(lookup[, 1] == a)){
+              lookup$topic[which(lookup[, 1] == a)]
+            }else{
+              NA
+            }
+          }
+        },
+      lookup = data$grouped
+      ))
 
       # add appearance info
       plot_features$appearance <- build_appearance(
@@ -405,42 +442,42 @@ server<-function(input, output, session){
   # SHOW INFO ON CLICKED POINTS
   # show selected entry
   output$selector_text <- renderPrint({
-    if(length(click_data$main) > 0){
-      if(any(c("label", "title") == input$response_variable)){
-        cat(paste0(
-          "<br><b>Entry:</b> ",
-          format_citation(
-            data$plot_ready$x[click_data$main, ],
-            abstract = FALSE,
-            details = (input$hide_names == FALSE)
-          ),
-          "<br><br>"
-        ))
-      }else{
-        cat(
-          paste0(
-            "<br><b>",
-            gsub(
-              "^[[:lower:]]",
-              toupper(substr(input$response_variable, 1, 1)),
-              input$response_variable
-            ),
-            ":</b> ",
-            data$plot_ready$x[[input$response_variable]][click_data$main],
-            "<br><br>"
-          )
+    if(length(click_data$main) > 0){ # i.e. display data for one entry
+      citation_tr <- format_citation(
+        data$plot_ready$x[click_data$main, ],
+        abstract = FALSE,
+        details = (input$hide_names == FALSE),
+        add_html = TRUE
+      )
+      if(plot_features$common_words){
+        display_text <- paste0(
+          "<b>",
+          citation_tr,
+          "</b><br><em>Most common words:</em> ",
+          data$plot_ready$x$common_words[click_data$main]
         )
+      }else{
+        display_text <- citation_tr
       }
-    }else{
+      cat(paste0(
+        "<br><font color =",
+        plot_features$appearance$x$text_color[click_data$main],
+        # data$plot_ready$x$text_color[click_data$main], # previous
+        ">",
+        display_text,
+        "</font><br><br>"
+      ))
+    }else{ # display data for one topic
       if(length(click_data$topic) > 0){
         cat(
           paste0(
-            "<br><b>Topic: ", click_data$topic,
-            "</b><br><em>Most likely terms:</em> ",
-    				data$plot_ready$topic$terms_default[click_data$topic],
-            "<br><em>Heighest weighted terms:</em> ",
-    				data$plot_ready$topic$terms_weighted[click_data$topic],
-            "<br><br>"
+            "<br><font color =",
+            plot_features$appearance$x$text_color[click_data$main],
+            #"black", # data$plot_ready$topic$text_color[click_data$topic],
+            "><b>Topic: ", click_data$topic,
+            "</b><br>",
+    				data$plot_ready$topic$caption_full[click_data$topic],
+            "</font><br><br>"
           )
   			)
       }
@@ -469,20 +506,69 @@ server<-function(input, output, session){
   })
 
   # SELECTION/DESELECTION
-  # render selector buttons
+  # show selection options for selected point
   output$select_choice <- renderUI({
     if((length(click_data$main) > 0 | length(click_data$topic) > 0)){
-      radioButtons("select_point",
-        label = "Selection:",
-        choices = c("Select", "Exclude"),
-        inline = TRUE
+      div(
+        list(
+          div(
+            style = "
+              display: inline-block;
+              vertical-align: top;
+              width: 80px",
+            actionButton(
+              inputId = "select_yes",
+              label = "Select",
+              style = "
+                background-color: #7c93c1;
+                color: #fff;
+                width: 80px"
+            )
+          ),
+          div(
+            style = "
+              display: inline-block;
+              vertical-align: top;
+              width: 80px",
+            actionButton(
+              inputId = "select_no",
+              label = "Exclude",
+              style = "
+                background-color: #c17c7c;
+                color: #fff;
+                width: 80px"
+            )
+          ),
+          div(
+            style = "
+              display: inline-block;
+              vertical-align: top;
+              width: 150px",
+            actionButton(
+              inputId = "notes_toggle",
+              label = "Show/Hide Notes",
+              style = "
+                background-color: #adadad;
+                color: #fff;
+                width: 150px"
+            )
+          )
+        )
       )
     }
   })
 
-  # add notes
-  output$select_notes <- renderUI({
-    if(length(click_data$main) > 0 | length(click_data$topic) > 0 ){
+  # when toggle is triggered, invert display status of notes
+  observeEvent(input$notes_toggle, {
+    plot_features$notes <- !plot_features$notes
+  })
+
+  # when requested, show notes
+  output$render_notes <- renderUI({
+    if(
+      plot_features$notes &
+      (sum(c(click_data$main, click_data$topic)) > 0)
+    ){
       if(length(click_data$main) > 0){
         selected_response <- data$plot_ready$x[click_data$main, 1]
         row <- which(data$raw[which(data$raw$display), input$response_variable] == selected_response)
@@ -503,56 +589,100 @@ server<-function(input, output, session){
       }else{
         initial_text <- start_text
       }
-      textAreaInput("select_notes",
-        label = "Notes:",
-        value = initial_text,
-        resize = "vertical",
-        width = "120%"
+      # add content to screen
+      div(
+        list(
+          br(),
+          div(
+            textAreaInput("notes_text",
+              label = NULL,
+              value = initial_text,
+              resize = "vertical",
+              width = "100%"
+            )
+          ),
+          div(
+            actionButton(
+              inputId = "notes_save",
+              label = "Save Notes",
+              width = "80%"
+            )
+          )
+        )
       )
     }
   })
 
-  # save selection choices & notes
-  output$select_save <- renderUI({
-    if(length(click_data$main) > 0 | length(click_data$topic) > 0){
-      actionButton("select_saved",
-        label = "Save Selection & Notes",
-        width = "80%"
-      )
-    }
-  })
 
-  # UPDATE PLOT COLOURS
+  # SAVE STATUS OF EACH ARTICLE/TOPIC
   # when button is clicked, update plot and data as requested
-  observeEvent(input$select_saved, {
-    # set colors and answers
-    if(input$select_point == "Select"){
-      color_tr <- "#000000"
-      result_tr <- TRUE
-    }else{
-      color_tr <- "#CCCCCC"
-      result_tr <- FALSE
-    }
+  observeEvent(input$select_yes, {
     if(length(click_data$main) > 0){ # i.e. point selected on main plot
-      plot_features$appearance$x$color[click_data$main] <- color_tr
+      plot_features$appearance$x$color[click_data$main] <- "#000000"
+      plot_features$appearance$x$text_color[click_data$main] <- "#405d99" # NEW
       selected_response <- data$plot_ready$x[click_data$main, 1]
-      rows <- which(data$raw[which(data$raw$display), input$response_variable] == selected_response)
-      data$raw$selected[rows] <- result_tr
-      data$raw$notes[rows] <- input$select_notes
+      display_rows <- which(data$raw$display)
+      selected_rows <- display_rows[
+        which(data$raw[display_rows, input$response_variable] == selected_response)
+      ]
+      data$raw$selected[selected_rows] <- TRUE
     }else{ # i.e. topic selected on barplot
       # color topic plot
       topic_selected <- plot_features$appearance$topic$topic[click_data$topic]
-      plot_features$appearance$topic$color[click_data$topic] <- color_tr
+      plot_features$appearance$topic$color[click_data$topic] <- "#000000"
+      plot_features$appearance$topic$text_color[click_data$main] <- "#405d99"
       # color main plot
       rows <- which(data$plot_ready$x$topic == topic_selected)
-      plot_features$appearance$x$color[rows] <- color_tr
+      plot_features$appearance$x$color[rows] <- "#000000"
+      plot_features$appearance$x$text_color[rows] <- "#405d99"
       # map to data$raw
-      rows <- which(data$raw$topic[which(data$raw$display)] == topic_selected)
-      data$raw$selected[rows] <- result_tr
-      data$raw$notes[rows] <- input$select_notes
+      display_rows <- which(data$raw$display)
+      rows <- display_rows[which(data$raw$topic[display_rows] == topic_selected)]
+      data$raw$selected[rows] <- TRUE
     }
   })
 
+  observeEvent(input$select_no, {
+    if(length(click_data$main) > 0){ # i.e. point selected on main plot
+      plot_features$appearance$x$color[click_data$main] <- "#CCCCCC"
+      plot_features$appearance$x$text_color[click_data$main] <- "#993f3f"
+      selected_response <- data$plot_ready$x[click_data$main, 1]
+      display_rows <- which(data$raw$display)
+      selected_rows <- display_rows[
+        which(data$raw[display_rows, input$response_variable] == selected_response)
+      ]
+      data$raw$selected[selected_rows] <- FALSE
+    }else{ # i.e. topic selected on barplot
+      # color topic plot
+      topic_selected <- plot_features$appearance$topic$topic[click_data$topic]
+      plot_features$appearance$topic$color[click_data$topic] <- "#CCCCCC"
+      plot_features$appearance$topic$text_color[click_data$main] <- "#993f3f"
+      # color main plot
+      rows <- which(data$plot_ready$x$topic == topic_selected)
+      plot_features$appearance$x$color[rows] <- "#CCCCCC"
+      plot_features$appearance$x$text_color[rows] <- "#993f3f"
+      # map to data$raw
+      display_rows <- which(data$raw$display)
+      rows <- display_rows[which(data$raw$topic[display_rows] == topic_selected)]
+      data$raw$selected[rows] <- FALSE
+    }
+  })
+
+  observeEvent(input$notes_save, {
+    if(length(click_data$main) > 0){
+      selected_response <- data$plot_ready$x[click_data$main, 1]
+      display_rows <- which(data$raw$display)
+      selected_rows <- display_rows[
+        which(data$raw[display_rows, input$response_variable] == selected_response)
+      ]
+      data$raw$notes[selected_rows] <- input$notes_text
+    }else{ # i.e. topic selected on barplot
+      topic_selected <- plot_features$appearance$topic$topic[click_data$topic]
+      display_rows <- which(data$raw$display)
+      rows <- display_rows[which(data$raw$topic[display_rows] == topic_selected)]
+      data$raw$notes[rows] <- input$notes_text
+    }
+  })
 
 
     # WORD TAB
@@ -626,6 +756,7 @@ server<-function(input, output, session){
     }
 
   })
+
 
   # WORD SEARCH
   observeEvent(input$search_text, {
@@ -721,12 +852,10 @@ server<-function(input, output, session){
     if(any(data$stopwords == words$selected) == FALSE){
       data$stopwords <- c(data$stopwords, words$selected)
     }
-    if(any(words$current$term == words$selected)){
-      row_color <- which(words$current$term == words$selected)
-      plot_features$appearance$y$color[words$rows[row_color]] <- "#CCCCCC"
+    if(any(plot_features$appearance$y$id == words$selected)){
+      row_color <- which(plot_features$appearance$y$id == words$selected)
+      plot_features$appearance$y$color[row_color] <- "#CCCCCC"
     }
-    # Note: this doesn't grey out terms in the plots of other topics,
-    # but will do for now
   })
 
   # SAVE OPTIONS
@@ -746,14 +875,23 @@ server<-function(input, output, session){
     }else{
       showModal(
         modalDialog(
-          textInput("save_filename",
+          selectInput(
+            inputId = "save_what",
+            label = "Choose an item to save",
+            choices = list(
+              "Save Progress (.rds)" = "progress",
+              "Save Choices (.csv)" = "choices"
+            ),
+            multiple = FALSE
+          ),
+          textInput(
+            inputId = "save_filename",
             label = "File Name"
           ),
-          selectInput("save_data_filetype",
-            label = "File Type",
-            choices = c("csv", "rds")
+          actionButton(
+            inputId = "save_data_execute",
+            label = "Save"
           ),
-          actionButton("save_data_execute", "Save"),
           modalButton("Cancel"),
           title = "Save As",
           footer = NULL,
@@ -776,17 +914,59 @@ server<-function(input, output, session){
         filename <- input$save_filename
       }
     }
-    filename <- paste(filename, input$save_data_filetype, sep = ".")
-    switch(input$save_data_filetype,
-      "csv" = {write.csv(data$raw, file = filename, row.names = FALSE)},
-      "rds" = {saveRDS(data$raw, file = filename)}
+    if(input$save_what == "progress"){
+      file_extension <- "rds"
+    }else{
+      file_extension <- "csv"
+    }
+    filename <- paste(filename, file_extension, sep = ".")
+    switch(input$save_what,
+      "choices" = {
+        write.csv(data$raw,
+          file = filename,
+          row.names = FALSE
+        )
+      },
+      "progress" = {
+        output <- list(
+          raw = data$raw,
+          stopwords = data$stopwords,
+          columns = data$columns,
+          grouped = data$grouped,
+          dtm = data$dtm,
+          model = data$model,
+          plot_ready = data$plot_ready
+        )
+        class(output) <- "screen_topics_progress"
+        saveRDS(
+          output,
+          file = filename
+        )
+      }
     )
     removeModal()
   })
 
+  observeEvent(input$exit_app, {
+    exit_modal()
+  })
+
+  observeEvent(input$exit_app_confirmed, {
+    output <- list(
+      raw = data$raw,
+      stopwords = data$stopwords,
+      columns = data$columns,
+      grouped = data$grouped,
+      dtm = data$dtm,
+      model = data$model,
+      plot_ready = data$plot_ready
+    )
+    class(output) <- "screen_topics_progress"
+    stopApp(returnValue = invisible(output))
+  })
 
 } # end server
 
-shinyApp(ui, server) # run
+print(shinyApp(ui, server))
 
 }

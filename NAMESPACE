@@ -1,38 +1,50 @@
-export(as.bibliography, read_bibliography, write_bibliography,
-summary.bibliography, print.bibliography, '[.bibliography',
+export(read_bibliography, write_bibliography,
+as.bibliography, summary.bibliography, print.bibliography, '[.bibliography', c.bibliography,
+tag_lookup,
 format_citation,
 format_citation.bibliography, format_citation.data.frame, format_citation.list,
+allocate_effort, distribute_tasks, aggregate_tasks,
+fuzzdist,
 fuzz_m_ratio, fuzz_partial_ratio, fuzz_token_sort_ratio, fuzz_token_set_ratio,
 find_duplicates, extract_unique_references,
-make_DTM, run_LDA,
-screen_titles, screen_abstracts, screen_topics, start_review_window)
+merge_columns, make_dtm, make_DTM, run_LDA, run_topic_model, revwords,
+start_review_window,
+screen_duplicates, screen_titles, screen_abstracts,
+screen_topics)
+S3method(summary, screen_topics_progress)
 S3method(format_citation, bibliography)
 S3method(format_citation, list)
 S3method(format_citation, data.frame)
+S3method(c, bibliography)
 S3method(print, bibliography)
 S3method(summary, bibliography)
 S3method(as.data.frame, bibliography)
 S3method('[', bibliography)
 importFrom(ade4, dudi.coa)
+importFrom("utils", "combn", "read.csv")
+importFrom("stats", "rnorm")
 importFrom(grDevices, grey)
 importFrom(modeltools, posterior)
 importFrom(plotly,
 event_data, "%>%", plotlyOutput,
 renderPlotly, plotlyProxy, plotlyProxyInvoke)
 importFrom(shiny,
-br, div, HTML,
+br, div, HTML, tag,
 fluidRow, column, icon,
-checkboxGroupInput, fileInput, sliderInput, selectInput, textInput, textAreaInput,
+checkboxInput, checkboxGroupInput,
+fileInput, sliderInput, selectInput, textInput, textAreaInput,
 actionButton, radioButtons,
-tableOutput, uiOutput, plotOutput,
+tableOutput, textOutput, uiOutput, plotOutput,
 reactiveValues, observe, observeEvent, isolate,
-renderPrint, renderPlot, renderUI, splitLayout,
+renderPrint, renderPlot, renderText, renderUI, splitLayout,
 validate, need,
 showModal, modalDialog, removeModal, modalButton,
-shinyApp)
+insertUI, removeUI,
+shinyApp, stopApp)
 importFrom(shinydashboard,
 sidebarMenu, menuItem, sidebarMenuOutput, renderMenu)
-importFrom(stats, xtabs)
+importFrom(stats, xtabs, plogis)
+importFrom(stringdist, stringdist)
 importFrom(tm, removePunctuation, removeWords, removeNumbers,
 stemDocument, tm_map, Corpus, VectorSource, DocumentTermMatrix,
 removeSparseTerms, stopwords, content_transformer, weightTf)

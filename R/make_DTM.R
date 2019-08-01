@@ -1,57 +1,83 @@
 # function to take a data.frame with bibliographic information, extract useful information, and make a DTM
-make_DTM<-function(
-	x, # a vector
-	stop_words
-	){
+make_DTM <- function(
+  x, # a vector
+	stop_words,
+  min_freq = 0.01,
+  max_freq = 0.85
+){
+  make_dtm(x, stop_words, min_freq, max_freq)
+}
+
+make_dtm <- function(
+	x,
+	stop_words,
+  min_freq = 0.01,
+  max_freq = 0.85
+){
 
   # check format
-  if(class(x)!="character"){
-	  stop("make_DTM only accepts arguments of class 'character'")
+  if(class(x) != "character"){
+	  stop("make_dtm only accepts arguments of class 'character'")
 	}
+  n <- length(x)
 
 	# sort out stop words
 	if(missing(stop_words)){
-    stop_words <-tm::stopwords()
+    stop_words <- revwords()
 	}else{
-    stop_words <-unique(c(tm::stopwords(), tolower(stop_words)))
+    stop_words <- unique(
+      tolower(stop_words)
+    )
   }
 
-	# convert to document term matrix
-	corp <- tm::Corpus(tm::VectorSource(x))
-		corp <- tm::tm_map(corp, content_transformer(tolower))
-		corp <- tm::tm_map(corp, removePunctuation)
-		corp <- tm::tm_map(corp, removeWords, stop_words)
-		corp <- tm::tm_map(corp, removeNumbers)
-		stem.corp <- tm::tm_map(corp, stemDocument) # SnowballC
+  # clean up text using tm functions
+  x <- tolower(x)
+  x <- gsub("-", " ", x) # all dashes (inc intraword dashes)
+  x <- tm::removeWords(x, stop_words)
+  x <- tm::removePunctuation(x)
+  x <- tm::removeNumbers(x)
+  x_stem <- stemDocument(x) # requires SnowballC
 
-	# create a lookup data.frame
-	term<-unlist(lapply(as.list(corp), function(a){
-		result<-strsplit(a, " ")[[1]]
-		result <-gsub("^\\s+|\\s+$", "", result)
-		return(result[which(result!=c(""))])
-		}))
-	word_freq<-as.data.frame(xtabs(~ term), stringsAsFactors=FALSE)
-	word_freq$stem<-tm::stemDocument(word_freq$term)
+	# calculate how rare and common terms should be treated
+  bound_values <- c(
+    max(c(ceiling(n * min_freq), 3)),
+    floor(n * max_freq)
+  )
+  # apply to dataset
+	dtm <- tm::DocumentTermMatrix(
+    x = tm::Corpus(tm::VectorSource(x_stem)),
+    control = list(
+      wordLengths = c(3, Inf), # default
+      bounds = list(global = bound_values)
+    )
+  )
 
-	# use control in DTM code to do remaining work
-	dtm.control <- list(
-		wordLengths = c(3, Inf),
-		minDocFreq=5,
-		weighting = weightTf)
-	dtm<-tm::DocumentTermMatrix(stem.corp , control= dtm.control)
-	dtm<-tm::removeSparseTerms(dtm, sparse= 0.99) # remove rare terms (cols)
-	output<-as.matrix(dtm) # convert back to matrix
-	rownames(output)<-paste0("V", c(1:nrow(output)))
+  # create a lookup data.frame for words and their stems
+  term <- NLP::words(x)
+  word_freq <- as.data.frame(
+    table(term),
+    stringsAsFactors = FALSE
+  )
+  word_freq$nchar <- nchar(word_freq$term)
+  word_freq_list <- split(word_freq, tm::stemDocument(word_freq$term))
 
-	# replace stemmed version with most common full word
-	term_vec<-unlist(lapply(colnames(output), function(a, check){
-		if(any(check$stem==a)){
-			rows<-which(check$stem==a)
-			row<-rows[which.max(check$Freq[rows])]
-			return(check$term[row])
-		}else{return(a)}
-		}, check=word_freq))
-	colnames(output)<-term_vec
+  # replace stemmed version with most common full word
+  dtm$dimnames$Terms <- unlist(lapply(
+    dtm$dimnames$Terms,
+    function(a, lookup){
+      z <- lookup[[a]]
+      z <- z[order(z$nchar), ]
+      z <- z[order(z$Freq, decreasing = TRUE), ]
+      return(z$term[order(z$Freq, z$nchar, decreasing = TRUE)[1]])
+    },
+    lookup = word_freq_list
+  ))
+
+  output <- as.matrix(dtm) # convert back to matrix
+  rownames(output) <- paste0(
+    "V",
+    seq_len(nrow(output))
+  )
 
 	return(output)
 }

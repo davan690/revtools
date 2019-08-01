@@ -2,9 +2,20 @@ screen_topics_ui <- function(){
 
   # build user interface
   header <- shinydashboard::dashboardHeader(
-    title = plotOutput(
-      outputId = "header"
-    )
+    tag("li",
+      list(
+        class = "dropdown",
+        div(
+          style = "
+            display: inline-block;
+            vertical-align: top;
+            text-align: right;
+            width: 780px",
+          textOutput(outputId = "progress_text")
+        )
+      )
+    ),
+    title = plotOutput("header")
   )
 
   sidebar <- shinydashboard::dashboardSidebar(
@@ -16,7 +27,8 @@ screen_topics_ui <- function(){
         startExpanded = TRUE,
         fileInput(
           inputId = "data_in",
-          label = "Import"
+          label = "Import",
+          multiple = TRUE
         ),
         uiOutput(
           outputId = "response_selector"
@@ -34,26 +46,47 @@ screen_topics_ui <- function(){
         actionButton(
           inputId = "save_data",
           label = "Save Data",
-          width = "80%"
+          width = "85%"
         ),
         actionButton(
           inputId = "clear_data",
           label = "Clear Data",
-          width = "80%"
+          width = "85%"
+        ),
+        actionButton(
+          inputId = "exit_app",
+          label = "Exit App",
+          width = "85%"
         ),
         br()
       ),
       menuItem(
         text = "Model",
         icon = icon("calculator"),
+        sliderInput(
+          inputId = "min_freq",
+          label = "Lower threshold for removing rare terms (%):",
+          min = 0,
+          max = 5,
+          step = 0.5,
+          value = 1
+        ),
+        sliderInput(
+          inputId = "max_freq",
+          label = "Upper threshold for removing common terms (%):",
+          min = 80,
+          max = 100,
+          step = 1,
+          value = 85
+        ),
         selectInput(
           inputId = "model_type",
-          label = "Model Type",
+          label = "Model type",
           choices = c("LDA", "CTM")
         ),
         sliderInput(
           inputId = "n_topics",
-          label = "# Topics",
+          label = "Number of topics",
           min = 4,
           max = 30,
           step = 1,
@@ -61,7 +94,7 @@ screen_topics_ui <- function(){
         ),
         sliderInput(
           inputId = "n_iterations",
-          label = "# Iterations",
+          label = "Number of iterations",
           min = 2000,
           max = 30000,
           step = 2000,
@@ -70,29 +103,29 @@ screen_topics_ui <- function(){
         actionButton(
           inputId = "calc_model",
           label = "Calculate Model",
-          width = "80%"
+          width = "85%"
         ),
-        shiny::br()
+        br()
       ),
       menuItem(
         text = "Display",
         icon = icon("bar-chart-o"),
-        shiny::br(),
+        br(),
         HTML(
-          "<b>&nbsp&nbspSelect Display Type:</b>"
+          "<b>&nbsp&nbspSelect display type:</b>"
         ),
         menuItem(
-          text = "Show Entries",
+          text = "Show entries",
           tabName = "entries",
           selected = TRUE
         ),
         menuItem(
-          text = "Show Words",
+          text = "Show words",
           tabName = "words"
         ),
         selectInput(
           inputId = "hide_names",
-          label = "Hide Identifying Information?",
+          label = "Hide identifying information?",
           choices = c(TRUE, FALSE),
           multiple = FALSE
         ),
@@ -135,7 +168,7 @@ screen_topics_ui <- function(){
         ),
         sliderInput(
           inputId = "point_size",
-          label = "Point Size",
+          label = "Point size",
           min = 0,
           max = 20,
           step = 2,
@@ -174,10 +207,7 @@ screen_topics_ui <- function(){
               outputId = "select_choice"
             ),
             uiOutput(
-              outputId = "select_notes"
-            ),
-            uiOutput(
-              outputId = "select_save"
+              outputId = "render_notes"
             )
           )
         )
@@ -191,7 +221,7 @@ screen_topics_ui <- function(){
               outputId = "plot_words",
               height = "600px"
             ),
-            shiny::br(),
+            br(),
             splitLayout(
               HTML("Search: "),
               textInput(
@@ -203,17 +233,20 @@ screen_topics_ui <- function(){
             tableOutput(
               outputId = "search_results"
             ),
-            shiny::div(
+            div(
               id = "search_placeholder"
             )
           ),
           column(
             width = 4,
+            tableOutput(
+              outputId = "selector_n2"
+            ),
             plotlyOutput(
               outputId = "plot_topics_2",
               height = "450px"
             ),
-            shiny::br(),
+            br(),
             uiOutput(
               outputId = "word_selector"
             )

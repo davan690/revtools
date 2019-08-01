@@ -1,4 +1,10 @@
-format_citation <- function(data, ...){
+format_citation <- function(
+  data,
+  details = TRUE,
+  abstract = FALSE,
+  add_html = FALSE,
+  ...
+){
   UseMethod("format_citation")
   }
 
@@ -8,7 +14,8 @@ format_citation.list <- function(
 	data, # list of data from a standard import function
   details = TRUE, # whether to allow or suppress bibliographic details - name, year, journal
 	abstract = FALSE, # option to return only the citation for an article
-  add_html = FALSE
+  add_html = FALSE,
+  ...
 	){
   	if(!details){
       result <- as.character(data["title"])
@@ -21,7 +28,7 @@ format_citation.list <- function(
           function(a){
     				dot.lookup <- a %in% "."
     				if(any(dot.lookup)){
-              a <- a[1:max(which(dot.lookup))]
+              a <- a[seq_len(max(which(dot.lookup)))]
             }
     				return(paste(a, collapse = ""))
     			}
@@ -75,7 +82,8 @@ format_citation.bibliography <-  function(
 	data,
   details = TRUE,
 	abstract = FALSE,
-  add_html = FALSE
+  add_html = FALSE,
+  ...
 	){
   lapply(data, function(a, details, abstract, add_html){
     format_citation.list(a, details, abstract, add_html)
@@ -89,16 +97,28 @@ format_citation.bibliography <-  function(
 # duplicate version for calling apply on a data.frame
 format_citation.data.frame <- function(
   data,
-  details = TRUE, # whether to allow or suppress bibliographic details - name, year, journal
+  details = TRUE, # whether to allow (TRUE) or suppress (FALSE) bibliographic details
   abstract = FALSE,
-  add_html = FALSE
+  add_html = FALSE,
+  ...
   ){
+  colnames(data) <- clean_names(colnames(data))
+  if(any(names(data) == "journal")){
+    source <- "journal"
+  }else{
+    source_check <- grepl("source", names(data))
+    if(any(source_check)){
+      source <- names(data)[which(source_check)[1]]
+    }else{
+      source <- "NA"
+    }
+  }
+
   if(
-    all(c("author", "year", "title", "journal") %in% names(data)) &
+    all(c("author", "year", source, "title") %in% names(data)) &
     (details == TRUE)
-    # ((names(x)[1] == "label") == TRUE)
   ){
-	data_list <- split(data, c(1:nrow(data)))
+	data_list <- split(data, seq_len(nrow(data)))
   data_out <- unlist(lapply(data_list, function(a){
 		author_vector <- strsplit(a[['author']], " and ")[[1]]
 		if(length(author_vector) == 1){
@@ -107,9 +127,9 @@ format_citation.data.frame <- function(
       author_text <- paste0(author_vector[1], " et al.")
     }
     if(add_html){
-      journal_text <- paste0("<i>", a[['journal']], "</i>. ")
+      journal_text <- paste0("<i>", a[[source]], "</i>. ")
     }else{
-      journal_text <- paste0(a[['journal']], ". ")
+      journal_text <- paste0(a[[source]], ". ")
     }
 		text_vector <- paste0(
       author_text,
@@ -138,22 +158,26 @@ format_citation.data.frame <- function(
 add_line_breaks <- function(data){
 	split_text <- strsplit(as.character(data), " ")
   out_list <- lapply(split_text, function(a){
-  	result <- data.frame(
-  		text = a,
-  		nchars = nchar(a),
-  		stringsAsFactors = FALSE
-    )
-  	result$sum <- cumsum(result$nchars)
-  	result$group <- cut(result$sum,
-  		breaks = seq(0, max(result$sum)+49, 50),
-  		labels = FALSE)
-  	result_list <- split(result$text, result$group)
-  	result <- paste(
-      unlist(
-        lapply(result_list, function(a){paste(a, collapse = " ")})
-      ),
-      collapse = "\n")
-    return(result)
+    if(length(a) == 0){
+      return("")
+    }else{
+    	result <- data.frame(
+    		text = a,
+    		nchars = nchar(a),
+    		stringsAsFactors = FALSE
+      )
+    	result$sum <- cumsum(result$nchars)
+    	result$group <- cut(result$sum,
+    		breaks = seq(0, max(result$sum)+49, 50),
+    		labels = FALSE)
+    	result_list <- split(result$text, result$group)
+    	result <- paste(
+        unlist(
+          lapply(result_list, function(a){paste(a, collapse = " ")})
+        ),
+        collapse = "\n")
+      return(result)
+    }
   })
   return(unlist(out_list))
 }
