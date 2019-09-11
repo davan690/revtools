@@ -5,6 +5,7 @@ Tools to support literature review and evidence synthesis in R, including import
 ---
 
 For a complete introduction to revtools you can check out the [user manual](https://revtools.net/user_manual/1_introduction.html); but to get started now you can download revtools either from this site (development version) or CRAN (stable version) as follows:
+
 ```
 install.packages("revtools") # install from CRAN
 devtools::install_github("mjwestgate/revtools") # install from GitHub
