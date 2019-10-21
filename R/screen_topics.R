@@ -258,11 +258,16 @@ server <- function(input, output, session){
         response_variable = input$response_variable,
         text_variables = input$variable_selector
       )
+
+      # ensure all entries have text
+      data$grouped <- data$grouped[nchar(data$grouped$text) > 0, ]
+
       data$dtm <- make_dtm(
         x = data$grouped$text,
         stop_words = data$stopwords,
         min_freq = input$min_freq * 0.01,
-        max_freq = input$max_freq * 0.01
+        max_freq = input$max_freq * 0.01,
+        ngram_quantile = input$ngram_quantile * 0.01
       )
 
       if(input$response_variable != data$columns[1]){
@@ -271,13 +276,14 @@ server <- function(input, output, session){
         plot_features$common_words <- FALSE
       }
 
+      # this section replaced above
       # check for rows with no words; update to ensure all entries in 'data' match one another
-      dtm_rowsums <- apply(data$dtm, 1, sum)
-      if(any(dtm_rowsums == 0)){
-        keep_rows <- which(dtm_rowsums > 0)
-        data$grouped <- data$grouped[keep_rows, ]
-        data$dtm <- data$dtm[keep_rows, ]
-      }
+      # dtm_rowsums <- apply(data$dtm, 1, sum)
+      # if(any(dtm_rowsums == 0)){
+      #   keep_rows <- which(dtm_rowsums > 0)
+      #   data$grouped <- data$grouped[keep_rows, ]
+      #   data$dtm <- data$dtm[keep_rows, ]
+      # }
 
       # calculate topic model
       data$model <- run_topic_model(
@@ -365,7 +371,8 @@ server <- function(input, output, session){
       data$plot_ready$x$caption <- paste0(
         format_citation(
           data = data$plot_ready$x,
-          details = !input$hide_names,
+          details = !as.logical(input$hide_names),
+          add_html = TRUE,
           line_breaks = TRUE
         ),
         "<br>[Topic #",
