@@ -1,10 +1,18 @@
-This repository is an extention of Martian Westgate from the Anustralia National University. The aims of this project are to extend the revtools package developed from Martian's work in reproducible research and bibilography analysis.
 
-<img align="left" height="120" src="https://github.com/mjwestgate/revtools_website/blob/master/assets/img/revtools_hex.png"><b>revtools v0.4.0.9999</b>
-
-Tools to support literature review and evidence synthesis in R, including import, de-duplication and interactive display of bibliographic data.
-
+Tools to support literature review and evidence synthesis in R, including import, de-duplication and interactive display of bibliographic data. <img align="left" height="120" src="https://github.com/mjwestgate/revtools_website/blob/master/assets/img/revtools_hex.png"><b>revtools v0.4.0.9999</b>
 ---
+
+This repository is an extention of Martian Westgate from the Australian National University. The aims of this project are to extend the revtools package developed from Martian's work to produce reproducible research and bibilography analysis for ecological modelling. We are currently working on:
+
+- turning this into a gitbook in vignette file?
+- link with typora
+
+Our concepts for extentions (Oct 2019):
+
+- Collect bibliography from search engines like google scholar
+- Import references from a single paper and analysis
+- Create process diagrams for the workflow.
+- Link this with a database structure such as Zotero as an add-in
 
 For a complete introduction to revtools you can check out the [user manual](https://revtools.net/user_manual/1_introduction.html); but to get started now you can download revtools either from this site (development version) or CRAN (stable version) as follows:
 
