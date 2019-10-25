@@ -1,5 +1,7 @@
 
-Tools to support literature review and evidence synthesis in R, including import, de-duplication and interactive display of bibliographic data. <img align="left" height="120" src="https://github.com/mjwestgate/revtools_website/blob/master/assets/img/revtools_hex.png"><b>revtools v0.4.0.9999</b>
+Tools to support literature review and evidence synthesis in R, including import, de-duplication and interactive display of bibliographic data. 
+
+<img align="left" height="120" src="https://github.com/mjwestgate/revtools_website/blob/master/assets/img/revtools_hex.png"><b>developed from revtools v0.4.0.9999</b>
 ---
 
 This repository is an extention of Martian Westgate from the Australian National University. The aims of this project are to extend the revtools package developed from Martian's work to produce reproducible research and bibilography analysis for ecological modelling. We are currently working on:
