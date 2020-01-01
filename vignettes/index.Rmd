@@ -1,0 +1,44 @@
+---
+title: "index"
+author: "Anthony Davidson"
+date: "01/01/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+myPaths <- .libPaths("C:/Program Files/R/R-3.6.2/library")
+myPaths <- c(myPaths)
+.libPaths(myPaths)  # add new path
+.libPaths()
+
+```
+
+# Overview {#over}
+
+The main purpose of this document is to assess the data and combine datasources for `Walker et al. 2019` with a state-space model. To begin with the data needs to be imported as is. The format of this data is in three csv files and a meta=data file??
+
+```{r}
+
+```
+
+## 1. Merge and clean orginal data
+
+```{r}
+
+```
+
+## 2. Restructure to convert to bib file
+
+Using revtools.
+
+```{r}
+
+```
+
+
+## 3. Scrap tool to compare additonal information.
+
+
+
