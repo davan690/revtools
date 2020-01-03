@@ -20,13 +20,20 @@ myPaths <- c(myPaths)
 The main purpose of this document is to assess the data and combine datasources for `Walker et al. 2019` with a state-space model. To begin with the data needs to be imported as is. The format of this data is in three csv files and a meta=data file??
 
 ```{r}
+file_location <- system.file(
+  "extdata",
+  "avian_ecology_bibliography.ris",
+  package = "revtools")
 
+library(revtools)
+x <- read_bibliography(file_location, return_df = FALSE)
 ```
 
 ## 1. Merge and clean orginal data
 
 ```{r}
-
+str(x)
+??revtools
 ```
 
 ## 2. Restructure to convert to bib file
@@ -34,6 +41,18 @@ The main purpose of this document is to assess the data and combine datasources 
 Using revtools.
 
 ```{r}
+x2 <- read.csv(("../inst/extdata/joinDavidson2020_walker_manual-mod.csv"))
+
+##function code
+file_location1 <- system.file(
+  "extdata",
+  "joinDavidson2020_walker_manual-mod.csv",
+  package = "revtools")
+
+# library(revtools)
+# x <- read_bibliography("../inst/extdata/joinDavidson2020_walker_manual-mod.csv", return_df = FALSE)
+
+#this needs to be modified for easy data entry...
 
 ```
 

@@ -1,0 +1,94 @@
+,Reference,Year.published,Publication,Type.of.study,Year.study,Season,Location,Island.or.Mainland,Density..rats.ha...Mean..or.estimate..and.range,Mean.probability.survival.to.next.season,Dispersal.distance..metres.,Sex.ratio..female.male.,Sex.of.dispersers,Density.dependence,Male.home.range..ha..mean.and.range.,Female.home.range..ha..mean.and.range.,Movement.speed..metres.min..mean.and.range.,Number.of.embryos..mean.and.range.,Number.of.placental.scars..mean.and.range.,spp
+77,Dick,1985,PhD Thesis,Original research,1984,Autumn ,Kapiti Island,Island,Derived: 25.5,NA,,1:01,NA,NA,,NA,,7.5,,Nrat
+88,Moors,1985,NZJE,Original research,1977-1981,All,Noises and Motukawau Islands,Island,4.2,NA,,1.77:1,NA,NA,1.2 (0.8-1.8),NA,,,16.4 (6-31),Nrat
+31,Brockie and Moeed,1986,Oecologia,Original research,1966-1968,All,Orongorongo Valley,Mainland,0.7-3.7,NA,NA,,,,,,,,,Srat
+41,Hickson et al,1986,NZJE,Original research,1984,Summer,Stewart Island,Island,2 (1.8-2.3),NA,NA,,,,0.37,0.56 (0.24-0.81),,,,Srat
+84,Hickson et al.,1986,NZJE,Original research,1984,Spring,Stewart Island,Island,0.17-0.21,NA,,,NA,NA,4,0.55,,,,Nrat
+87,Moller & Tilley,1986,NZJE,Original research,1984,Summer,Bay of Islands,Island,,NA,,1:01,NA,NA,,NA,,6.9 (SE = 0.26),,Nrat
+4,Efford et al.,1988,Journal of Zoology,Original research,1977-1978,Summer and Winter,Mana Island,Island,,NA,NA,01:01.2,NA,NA,NA,NA,NA,6.6 (5-8),NA,mice
+42,Hooker & Innes,1995,NZJE,Original research,1991-1992,Summer,Rotoheu Forest,Mainland,6.2,NA,NA,,,,1.52 (SE = 0.28),1.15 (SE = 0.29),,,,Srat
+6,Miller & Miller,1995,NZJE,Original research,1990-1191,All,Rangitoto Island,Island,,NA,NA,1:01,NA,NA,NA,NA,NA,6.7 (5-10),NA,mice
+58,Miller & Miller,1995,NZJE,Original research,1990-1991,All,Rangitoto,Island,,NA,NA,,,No DD in home range size on NZ islands,,,,7,7.4 (5-12),Srat
+1,Blackwell et al. ,2001,Ecological Modelling,Model,NA,NA,,,,NA,NA,,NA,NA,NA,NA,NA,2.4/female/month (non-mast years) & 2.9/female/month (mast years),NA,mice
+27,Blackwell et al. ,2001,Ecological Modelling,Model,NA,NA,NA,Mainland,,NA,NA,,,,,,,0.8/female/month (non-mast years) & 1.4/female/month (mast years),,Srat
+45,Innes et al.,2001,NZJE,Original research,1983-1987,All,Pureora Forest,Mainland,,NA,NA,1:01,,,,,,5.33 (SD = 1.2),,Srat
+85,Innes et al. ,2001,NZJE,Original research,1983-1987,All,Pureora Forest,Mainland,,NA,,1:01,NA,NA,,NA,,6.5 (4-8),,Nrat
+17,Ruscoe et al. (2001) -  Cited in Ruscoe et al (2004),2001,NA,Original research,1999,Summer,Eglinton Valley,Mainland,Range: 12-30,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+3,Efford,2004,Oikos,Original research,1981-1982,All,Mana Island,Island,31.2 (SE = 7.1),NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+16,Ruscoe et al.,2004,NZJE,Original research,2002-2003,All,Waitutu Forest & Crombie Stream,Mainland,Range: 8-28,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+53,Mackay & Russell (2005) - Cited in Table 3 of Harper & Rutherford,2005,NA,Original research,NA,Autumn-Winter,Goat Island,Island,3.3,NA,NA,,,,,,,,,Srat
+54,Mackay (2005) - Cited in Table 3 of Harper & Rutherford,2005,NA,Original research,NA,Autumn,Motutapere Island,Island,2.5,NA,NA,,,,,,,,,Srat
+55,Mackay (2005) - Cited in Table 3 of Harper & Rutherford,2005,NA,Original research,NA,Autumn,Tawhitinui Island,Island,2.6,NA,NA,,,,,,,,,Srat
+62,Pryde et al,2005,NZJE,Original research,1996 & 2000,Summer,Eglington Valley,Mainland,,NA,NA,,,,9.43 (7.51-11.35),0.27,,,,Srat
+64,Russell & Clout,2005,Proceedings of the 13th Australasian vertebrate pest conference,Review,,NA,Motutapere Island,Island,,NA,500,,,,,,,,,Srat
+89,Russell & Clout,2005,"Book: Parkes, J.; Statham, M.; edwards, g.(Comps): Proceedings of the 13th Australasian vertebrate pest conference. Landcare Research, Lincoln, New Zealand",Review,NA,NA,NA,Island,,NA,Range: 1000-2200,,NA,NA,,NA,,,,Nrat
+67,Shaprio (2005) - Cited in Table 3 of Harper & Rutherford,2005,NA,Original research,NA,Summer,Ponui Island,Island,8.1,NA,NA,,,,,,,,,Srat
+37,Efford et al.,2006,NZJE,Original research,1971-1993,All,Orongorongo Valley,Mainland,,NA,NA,1:01,,,,,,4.75 (0-13),,Srat
+38,Harper ,2006,NZJE,Original research,2004,Autumn,Stewart Island,Island,0.76 (0.13-1.38),NA,NA,,,No DD in juvenile dispersal,,,,,,Srat
+81,Harper & Veitch,2006,Wildlife Research,Original research,1994,All,Raoul Island,Island,6.05 (3.62-8.94),NA,,,NA,NA,,NA,,,,Nrat
+82,Harper & Veitch,2006,Wildlife Research,Original research,1995,All,Raoul Island,Island,0.35,NA,,,NA,NA,,NA,,,,Nrat
+83,Harper & Veitch,2006,Wildlife Research,Original research,1997,All,Raoul Island,Island,8.68 (5.59-10.99),NA,,,NA,NA,,NA,,,,Nrat
+48,Key et al (1998) - cited in Table 2.1 of Latham ,2006,PhD Thesis,Original research,NA,Summer,Shiant Islands,Island,53.5 (22-85),NA,NA,,,,,,,,,Srat
+51,Latham,2006,PhD Thesis,Original research,2004 & 2005,Winter,Ponui Island,Island,19.3 (12.4-27.7),0.33,NA,,,,,,,,6.8 (5-16),Srat
+52,Latham,2006,PhD Thesis,Original research,2004 & 2005,Spring,Ponui Island,Island,9 (2.5-16.2),0.15,NA,,,,0.29 (0.03-0.56),"0.21 (0.15, 0.26)",,,,Srat
+57,McDonald et al (1997) - cited in Table 2.1 of Latham ,2006,PhD Thesis,Original research,NA,Spring,Shiant Islands,Island,12,NA,NA,,,,,,,,,Srat
+72,Taylor (unpublished) - cited in Table 2.1 of Latham,2006,PhD Thesis,Original research,NA,NA,Haulashore Island,Island,37.5 (25-50),NA,NA,,,,,,,,,Srat
+18,Wilson et al.,2007,Ecography,Original research,2001-2004,All,Waitutu Forest,Mainland,Range: 5-28,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+73,Wilson et al. ,2007,NZJE,Original research,2004,Autumn,Orongorongo Valley,Mainland,8.7 (4.9-15.5),NA,NA,,,,,,,,,Srat
+56,McCulloch (2009) - Cited in Russell & Innes (in press),2009,Cited in book chapter: Handbook of the Mammals of New Zealand,Original research,NA,Winter,Dunedin,Mainland,0.26 (SE = 0.1),NA,NA,,,,,,,,,Srat
+65,Russell et al,2009,Biological Conservation,Original research,2005,Autumn,Goat Island,Island,3.2,NA,NA,,,,,,,6.3 (5-8),,Srat
+91,Russell et al. ,2009,Biological Invasions,Original research,2004,Autumn ,Moturemu Island,Island,"6.6 (28.8, 43.7)",NA,,0.8:1,NA,NA,,NA,,,,Nrat
+66,Rutherford et al.,2009,NZJE,Original research,2003-2004,Summer,Big South Cape Island,Island,,NA,NA,1:01,,,,,,,,Srat
+68,Smith et al. ,2009,NZJE,Original research,2005,Spring,Eglington Valley,Mainland,Derived minimum: 0.67,NA,NA,,,,,,,,,Srat
+69,Smith et al. ,2009,NZJE,Original research,2006,Spring,Eglington Valley,Mainland,Derived minimum: 2.56,NA,NA,,,,,,,,,Srat
+70,Smith et al. ,2009,NZJE,Original research,2006,Spring,Eglington Valley,Mainland,Derived minimum: 1.33,NA,NA,,,,,,,,,Srat
+71,Smith et al. ,2009,NZJE,Original research,2006,Winter,Eglington Valley,Mainland,,NA,NA,,,,1.05 (0.06-30.5),0.89 (0.03-1.75),,,,Srat
+23,Bellingham et al.,2010,NZJE,Review,NA,NA,NZ Islands,Island,,NA,500,,,,,,,,,Srat
+30,Bowie et al.,2010,Book: The Ecology and Control of Rodents in NZ Nature Reserves,Original research,2002,NA,Quail and King Billy Islands,Mainland,0.09,NA,NA,,,,,,,,,Srat
+46,Innes et al.,2010,NZJE,Original research,2008,Autumn,Hamilton,Mainland,2.71  (0.8-4.6),NA,NA,,,,,,,,,Srat
+92,Russell et al. ,2010,Animal Behaviour,Original research,2004-2006,Summer,Motuhoropapa Island,Island,,NA,,,NA,NA,,NA,1.42 (SD = 1.27),,,Nrat
+11,Norbury et al.,2013,Ecological Applications,Original research,2005-2008,Spring and Autumn,Macraes and Alexandra,Mainland,1.24 (SE = 0.33),NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+63,Ruscoe et al.,2013,Conservation Biological,Original research,2006-2009,All,"Whirinaki, Mokaihaha, Te Urewera & Kaimai Ranges",Mainland,5 (0-10),NA,NA,,,,,,,,,Srat
+75,Bramley,2014,NZJE,Original research,1996,Winter,Kapiti Island,Island,,NA,,1.17:1,NA,NA,5.78 (1.59-21.01),5.13,,,,Nrat
+76,Beveridge & Daniel (1995) - Cited in Innes (in press),In press,Cited in book chapter: Handbook of the Mammals of New Zealand,Original research,NA,NA,Mokoia Island,Island,,NA,,1.14:1,NA,NA,,NA,,,,Nrat
+2,Choquenot & Ruscoe (2000) - Cited in Murphy & Nathan (in press),In press,Cited in chapter: Handbook of the Mammals of New Zealand,Original research,1972-1996,All,Orongorongo Valley,Mainland,Rnage: 0.55-3.3,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+78,Gillies - Cited in Innes (in press),In press,Cited in book chapter: Handbook of the Mammals of New Zealand,Personal communication,NA,NA,Whangamarino ,Mainland,,NA,,0.52:1,NA,NA,,NA,,,,Nrat
+5,"Goldwater et al (2007, 2012) - Cited in Murphy & Nathan (in press)",In press,Cited in chapter: Handbook of the Mammals of New Zealand,Original research,2007,All,Tawharaniu,Island,Range: 14.6-156.7,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+79,Harper - Cited in Innes (in press),In press,Cited in book chapter: Handbook of the Mammals of New Zealand,Personal communication,NA,NA,Raoul Island,Island,,NA,,0.85:1,NA,NA,,NA,,,,Nrat
+80,Harper - Cited in Innes (in press),In press,Cited in book chapter: Handbook of the Mammals of New Zealand,Personal communication,NA,NA,Stewart Island,Island,,NA,,1.04:1,NA,NA,,NA,,,,Nrat
+86,Moller - Cited in Innes (in press),In press,Cited in book chapter: Handbook of the Mammals of New Zealand,Personal communication,NA,NA,Waewaetorea Island,Island,,NA,,1.42:1,NA,NA,,NA,,,,Nrat
+8,Murphy & Nathan (in press),In press,Book: Handbook of the Mammals of New Zealand,Review,"1975-1980, 1999",All,Hollyford Valley,Mainland,Range: 4.6-5.9,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+9,Murphy & Nathan (in press),In press,Book: Handbook of the Mammals of New Zealand,Review,211 & 2013,Summer and Winter,Antipodes Island,Island,Range: 55-104,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+7,Murphy (1989) - Cited in Murphy & Nathan (in press),In press,Cited in chapter: Handbook of the Mammals of New Zealand,Original research,1984-1985,All,Allports Island,Island,Range: 2.2-17,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+10,Murphy et al. (2011) - Cited in Murphy & Nathan (in press),In press,Cited in chapter: Handbook of the Mammals of New Zealand,Original research,2008,Summer-Winter,Saddle Island,Island,Range: 8.8-19.2,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+12,Pickard (1984) - Cited in Murphy & Nathan (in press),In press,Cited in chapter: Handbook of the Mammals of New Zealand,Original research,1981-1982,All,Mana Island,Island,Range: 5.2-71,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+13,Reynolds (2015) - Cited in Murphy & Nathan (in press),In press,Cited in chapter: Handbook of the Mammals of New Zealand,Original research,2014,Autumn,Moturekareka Island,Island,81,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+14,Reynolds (2015) - Cited in Murphy & Nathan (in press),In press,Cited in chapter: Handbook of the Mammals of New Zealand,Original research,2014,Autumn,Maud Island,Island,138,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+15,Reynolds (2015) - Cited in Murphy & Nathan (in press),In press,Cited in chapter: Handbook of the Mammals of New Zealand,Original research,2014,Autumn,Moturekareka Island,Island,34,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+90,Russell & Mackay - Cited in Innes (in press),In press,Cited in book chapter: Handbook of the Mammals of New Zealand,Personal communication,NA,NA,Pakihi Island,Island,,NA,,1:01,NA,NA,,NA,,,,Nrat
+94,Taylor & Thomas (1993) - Cited in Innes (in press),In press,Cited in book chapter: Handbook of the Mammals of New Zealand,Original research,NA,NA,Breaksea Island,Island,13,NA,,,NA,NA,,NA,,,,Nrat
+93,Taylor (1986) - Cited in Innes (in press),In press,Cited in book chapter: Handbook of the Mammals of New Zealand,Original research,NA,NA,Campbell Island,Island,,NA,,1:01,NA,NA,,NA,,,,Nrat
+19,Wilson & Lee (2010) - Cited in Murphy & Nathan (in press),In press,Cited in chapter: Handbook of the Mammals of New Zealand,Original research,2003-2004,"Spring, Summer, Autumn",Borland Valley,Mainland,Range: 0.02-1.8,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+20,Wilson & Lee (2010) - Cited in Murphy & Nathan (in press),In press,Cited in chapter: Handbook of the Mammals of New Zealand,Original research,2003-2004,"Spring, Summer, Autumn",Borland Valley,Mainland,Range: 0.4-38.6,NA,NA,,NA,NA,NA,NA,NA,,NA,mice
+21,Alterio et al.,NA,NZJE,Original research,1996,Winter,Maruia,Mainland,Derived minimum: 0.09,NA,NA,,,,,,,,,Srat
+22,Bagsara et al.,NA,NZJE,Original research,2013,NA,Great Barrier Island,Island,,NA,80,,Male all,,,,,,,Srat
+24,Best (1973) - Cited in Table 7 of Efford et al.,NA,NA,Original research,1966-1967,All,Waimangaroa,Mainland,,NA,NA,1:01,,,,,,5.9 (SD = 1.90),,Srat
+25,Best (1973) - Cited in Table 7 of Efford et al.,NA,NA,Original research,1966-1967,All,Banks Peninsula,Mainland,,NA,NA,0.96:1,,,,,,5.9 (SD = 1.61),,Srat
+26,Bettesworth & Anderson,NA,Tane,Original research,NA,NA,Whale Island,Island,,NA,NA,1:01,,,,,,,,Srat
+28,Blackwell et al. ,NA,NZJE,Original research,1998,Winter,Te Urewera National Park,Mainland,8.2 (5.0-10.5),NA,NA,1.03:1,,,,,,,,Srat
+29,Blackwell et al. ,NA,NZJE,Original research,1997,All,Te Urewera National Park,Mainland,,NA,NA,01:01.3,,,,,,,,Srat
+32,Brown et al.,NA,NZJE,Original research,1994,Summer,Kaharoa,Mainland,6.7 (6.5-7.8),NA,NA,,,,,,,,,Srat
+33,Carter et al.,NA,Biological Invasions,Original research,2013,Summer,Native Island,Island,Minimum derived: ,NA,NA,,,,,,,,,Srat
+34,Christie et al.,NA,NZJE,Original research,2004-2005,Spring-Autumn,Eglington Valley,Mainland,0.38 (max: 0.48),NA,NA,,,,,,,,,Srat
+35,Craig (1977) - Cited in Table 3 of Harper & Rutherford,NA,NA,Original research,NA,Autumn,Goat Island,Island,16 (12-20),NA,NA,,,,,,,,,Srat
+36,Dowding & Murphy,NA,NZJE,Original research,1993,Spring,Puketi Forest,Mainland,2.9,NA,NA,,,,0.94 (0.52-1.93),0.79 (0.31-1.09),,,,Srat
+39,Harper & Rutherford,NA,NZJE,Original research,2003 & 2004,Summer,Big South Cape Island,Island,11.7 (7.9-15.4),NA,NA,,,No DD in juvenile dispersal,0.14 (0.10-0.17),0.04 (0.02-0.05),4.7 (1-10),,,Srat
+40,Harper & Rutherford,NA,NZJE,Original research,2003 & 2004,Autumn,Big South Cape Island,Island,30 (17-43),NA,NA,,,,,,,,,Srat
+43,Innes & Skipworth,NA,NZJE,Original research,1976-1977,Summer,Palmeston North,Mainland,,NA,NA,,,,0.1,0.03 (0.025-0.04),,,,Srat
+44,Innes (1977) - Cited in Russell & Innes (in press),NA,Cited in book chapter: Handbook of the Mammals of New Zealand,Original research,NA,NA,Tararua Rage,Mainland,,NA,NA,0.75:1,,,,,,,,Srat
+47,Innes et al. (1977) - Cited in Table 7 of Efford et al. ,NA,NA,Original research,1976-1977,All,Tiritea,Mainland,,NA,NA,,,,,,,4.94 (SD = 1.31),,Srat
+49,King & Moller,NA,Pacific Conservation Biology,Original research,1976-1978,All,Hollyford,Mainland,,NA,NA,,,,,,,5.99 (SD = 1.47),,Srat
+50,King et al. ,NA,Biological Invasions,Original research,2008,Summer-Autumn,Hamilton,Mainland,3.6 (0-11.1),NA,NA,1:01,,,,,,,,Srat
+59,Murphy & Bradfield,NA,NZJE,Original research,1989-1990,Summer,Mapara Reserve,Mainland,Derived minimum: 0.15,NA,NA,,,,,,,,,Srat
+60,Nugent et al. ,NA,Wildlife Research,Original research,2005,Winter,Whirinaki,Mainland,1.33 (SE = 0.6),NA,NA,,,,,,,,,Srat
+61,Nugent et al. ,NA,Wildlife Research,Original research,2005,Winter,Mokaihaha,Mainland,7.71 (SE = 1.7),NA,NA,,,,,,,,,Srat
