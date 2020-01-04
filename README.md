@@ -1,10 +1,8 @@
+This repository is an extention of Martin Westgate from the Australian National University. The aims of this project are to extend the revtools package developed from Martin's work to produce reproducible research and bibilography analysis for ecological modelling. 
 
-Tools to support literature review and evidence synthesis in R, including import, de-duplication and interactive display of bibliographic data. 
+## Additional to `revtools`
 
-<img align="left" height="120" src="https://github.com/mjwestgate/revtools_website/blob/master/assets/img/revtools_hex.png"><b>developed from revtools v0.4.0.9999</b>
----
-
-This repository is an extention of Martian Westgate from the Australian National University. The aims of this project are to extend the revtools package developed from Martian's work to produce reproducible research and bibilography analysis for ecological modelling. We are currently working on:
+Not much yet sorry. I am currently working on:
 
 - turning this into a gitbook in vignette file?
 - link with typora
@@ -18,11 +16,19 @@ Our concepts for extentions (Oct 2019):
 
 For a complete introduction to revtools you can check out the [user manual](https://revtools.net/user_manual/1_introduction.html); but to get started now you can download revtools either from this site (development version) or CRAN (stable version) as follows:
 
+## `revtools`
+
+<img align="left" height="120" src="https://github.com/mjwestgate/revtools_website/blob/master/assets/img/revtools_hex.png"><b>revtools v0.4.1</b>
+
+Tools to support literature review and evidence synthesis in R, including import, de-duplication and interactive display of bibliographic data.
+
 ```{r}
 install.packages("revtools") # install from CRAN
 devtools::install_github("mjwestgate/revtools") # install from GitHub
 library(revtools) # load
 ```
+
+For a complete introduction to revtools you can check out the [website](https://revtools.net/); but to get started now you can download revtools either from this site (development version) or CRAN (stable version) as follows:
 
 Once you've installed & loaded revtools, you can use any of the inbuilt apps by loading them and drag-and-dropping the data you want to analyse. All the apps export to csv format so you don't need to use R to investigate their results if you'd prefer not to. The apps available in revtools are:
 

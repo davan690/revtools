@@ -80,17 +80,14 @@ build_plot_data <- function(info, dtm, model, hide_names){
   x_matrix <- modeltools::posterior(model)$topics # article x topic
   y_matrix <- t(modeltools::posterior(model)$terms)
 
-  # exclude following columns: topic, select, display
-  keep_cols <- which((colnames(info) %in% c("topic", "selected", "display")) == FALSE)
-
   # build main plot information (x)
   x_df <- cbind(
-    info[, keep_cols],
+    info,
     data.frame(
-      topic = apply(x_matrix, 1, which.max),
-      ade4::dudi.coa(x_matrix, scannf = FALSE, nf=3)$li
+      ade4::dudi.coa(x_matrix, scannf = FALSE, nf = 3)$li
     )
   )
+  x_df$topic <- apply(x_matrix, 1, which.max)
 
   # add citation in correctly formatted way
   x_df$caption <- paste0(
@@ -109,6 +106,12 @@ build_plot_data <- function(info, dtm, model, hide_names){
       collapse = "; "
     )
   })
+
+  # restrict to useful columns
+  x_df <- x_df[, colnames(x_df) %in% c(
+    "label", "author", "year", "title", "journal", "pages", "abstract",
+    "Axis1", "Axis2", "Axis3", "topic", "caption", "common_words")
+  ]
 
   # build word plot information (y)
   y_df <- data.frame(
@@ -199,7 +202,7 @@ build_plot_data <- function(info, dtm, model, hide_names){
 
 add_required_columns <- function(data){
   added_cols <- data.frame(
-    selected = NA,
+    screened_topics = NA,
     display = TRUE,
     topic = NA,
     notes = NA
@@ -223,7 +226,9 @@ get_topic_colnames <- function(data){
   colnames(data)[
     which(
       !(colnames(data) %in%
-      c("selected", "topic", "display", "notes"))
+      c("screened_topics", "screened_titles", "screened_abstracts",
+        "topic", "display", "notes"
+      ))
     )
   ]
 }
