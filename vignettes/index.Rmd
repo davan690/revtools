@@ -94,6 +94,45 @@ digraph boxes_and_circles {
 
 ```
 
+## Workflow
+
+```{r}
+library("DiagrammeR")
+
+grViz(" 
+  digraph CFA { graph [layout = circo]
+    # Multiple level nodes
+    
+    # # Terminal branch nodes
+    node [shape = ellipse, color = Drakgreen]
+    a [label = '@@1']
+    
+    node [shape = circle, color=CornflowerBlue]
+    b [label = '@@2']; 
+    c [label = '@@3'];
+    {rank = same; b; c}
+    
+    # Terminal branch nodes
+    node [shape = box, color = Crimson]
+    d [label = '@@4'];
+    
+    # Connect nodes with edges and labels
+    a -> b
+    a -> c
+    b -> d
+    c -> d
+    b->c
+    c->b
+  }
+
+[1]: 'Beech seed' 
+[2]: 'Rats'
+[3]: 'Mice'
+[4]: 'Stoats'
+")
+```
+
+
 ## Package uses
 
 Here I explain the use or extention of this work in the future.
@@ -137,5 +176,10 @@ file_location1 <- system.file(
 #small-lit-review..?
 ```
 
-###
+### Study database
+
+```{r}
+#not sure how this looks yet...
+```
+
 
