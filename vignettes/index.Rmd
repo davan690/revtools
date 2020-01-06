@@ -29,14 +29,89 @@ library(revtools)
 x <- read_bibliography(file_location, return_df = FALSE)
 ```
 
-## 1. Merge and clean orginal data
+Generally, this method leveages the strength of the tidy data approach to combine datasets (Figure 1).
 
-```{r}
-str(x)
-??revtools
+```{r echo=FALSE}
+library(DiagrammeR)
+grViz("
+digraph boxes_and_circles {
+
+  # a 'graph' statement
+  graph [overlap = true, fontsize = 10 layout = circo]
+
+  # several 'node' statements
+  node [shape = box,
+        fontname = Helvetica]
+  ScienceResearch; GreyLit; Expert; Knowledge
+
+  node [shape = circle,
+        fixedsize = true,
+        width = 0.9] // sets as circles
+  WEbOFScience; Scholar; Scopus
+  
+  # several 'edge' statements
+  Knowledge->Expert->Knowledge
+  Knowledge->ScienceResearch
+  Knowledge->GreyLit->Knowledge
+  ScienceResearch->WEbOFScience
+  ScienceResearch->Scholar
+  ScienceResearch->Scopus
+}
+")
 ```
 
-## 2. Restructure to convert to bib file
+```{r eval=FALSE, include=FALSE}
+
+# grViz("
+# digraph boxes_and_circles {
+# 
+#   # a 'graph' statement
+#   graph [overlap = true, fontsize = 10]
+# 
+#   # several 'node' statements
+#   node [shape = triangle,
+#         fontname = Helvetica]
+#   Theory
+#   
+#   # several 'node' statements
+#   node [shape = box,
+#         fontname = Helvetica]
+#   Scale
+#   
+#   node [shape = box]
+#   dateTime; geolocation; counts;
+#   Intensity; Intensity;
+#   
+#   node [shape = circle]
+#   Temporal; Spatial; Genetics;
+# }")
+# #   # several 'edge' statements
+# edge []
+# Theory->Scale;Scale->Genetics; Scale->Spatial; Spatial->geolocation;
+# Scale->Temporal; Temporal->dateTime; Genetics->Intensity;
+# dateTime->counts; geolocation->counts; I#IS NOT
+# #Scale->Intensity; 
+
+```
+
+## Package uses
+
+Here I explain the use or extention of this work in the future.
+
+### Collect data
+
+```{r}
+#small-lit-review..?
+```
+
+### Merge and clean orginal data
+
+```{r}
+# str(x)
+# ??revtools
+```
+
+### Restructure to convert to `.bib` file
 
 Using revtools.
 
@@ -56,8 +131,11 @@ file_location1 <- system.file(
 
 ```
 
+### Scrap tool to compare additonal information.
 
-## 3. Scrap tool to compare additonal information.
+```{r}
+#small-lit-review..?
+```
 
-
+###
 
