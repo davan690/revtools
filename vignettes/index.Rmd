@@ -17,84 +17,38 @@ myPaths <- c(myPaths)
 
 # Overview {#over}
 
-The main purpose of this document is to assess the data and combine datasources for `Walker et al. 2019` with a state-space model. To begin with the data needs to be imported as is. The format of this data is in three csv files and a meta=data file??
+The main aim of this manuscript is to develop the proposed spatial patterns in rodent dynamics in NZ forest systems (Figure 1: reproduced from @tompkins2016.
+
+## One
+
+Investigate the data and combined dataset analysised for `Walker et al. 2019`. 
+    - The data needs to be imported `as is`. 
+    - @walker2019 submitted `3 csv` files and a `meta-data` file as supplementary material. 
+    - downloaded and combined these using a indicator `spp` (*where:* Nrat = norway rat; Nmice = mice; Srat = ship rat)
+    - regenerate manuscript without stats beginning down 
+      - NOT THE SAME AS COMPUTATIONAL REPRODUCIBLE
+
+## Two
+
+I then reproduce the statistical analysis from the paper using their R code.
 
 ```{r}
-file_location <- system.file(
-  "extdata",
-  "avian_ecology_bibliography.ris",
-  package = "revtools")
-
-library(revtools)
-x <- read_bibliography(file_location, return_df = FALSE)
-```
-
-Generally, this method leveages the strength of the tidy data approach to combine datasets (Figure 1).
-
-```{r echo=FALSE}
-library(DiagrammeR)
-grViz("
-digraph boxes_and_circles {
-
-  # a 'graph' statement
-  graph [overlap = true, fontsize = 10 layout = circo]
-
-  # several 'node' statements
-  node [shape = box,
-        fontname = Helvetica]
-  ScienceResearch; GreyLit; Expert; Knowledge
-
-  node [shape = circle,
-        fixedsize = true,
-        width = 0.9] // sets as circles
-  WEbOFScience; Scholar; Scopus
-  
-  # several 'edge' statements
-  Knowledge->Expert->Knowledge
-  Knowledge->ScienceResearch
-  Knowledge->GreyLit->Knowledge
-  ScienceResearch->WEbOFScience
-  ScienceResearch->Scholar
-  ScienceResearch->Scopus
-}
-")
-```
-
-```{r eval=FALSE, include=FALSE}
-
-# grViz("
-# digraph boxes_and_circles {
-# 
-#   # a 'graph' statement
-#   graph [overlap = true, fontsize = 10]
-# 
-#   # several 'node' statements
-#   node [shape = triangle,
-#         fontname = Helvetica]
-#   Theory
-#   
-#   # several 'node' statements
-#   node [shape = box,
-#         fontname = Helvetica]
-#   Scale
-#   
-#   node [shape = box]
-#   dateTime; geolocation; counts;
-#   Intensity; Intensity;
-#   
-#   node [shape = circle]
-#   Temporal; Spatial; Genetics;
-# }")
-# #   # several 'edge' statements
-# edge []
-# Theory->Scale;Scale->Genetics; Scale->Spatial; Spatial->geolocation;
-# Scale->Temporal; Temporal->dateTime; Genetics->Intensity;
-# dateTime->counts; geolocation->counts; I#IS NOT
-# #Scale->Intensity; 
 
 ```
 
-## Workflow
+## Three
+
+I then reproduce the statistical analysis using a bayesian state-space model that incorperates both the data and the proposed theory of @tompkins2013 and other. 
+
+## Four
+
+I then compare the two modelling approaches (regression trees and ssm models). 
+
+## Five small-scale-lit-review
+
+Add new data and compare?
+
+The paper 
 
 ```{r}
 library("DiagrammeR")
@@ -132,8 +86,84 @@ grViz("
 ")
 ```
 
+## Workflow
 
-## Package uses
+```{r echo=FALSE}
+library(DiagrammeR)
+grViz("
+digraph boxes_and_circles {
+
+  # a 'graph' statement
+  graph [overlap = true, fontsize = 10 layout = circo]
+
+  # several 'node' statements
+  node [shape = box,
+        fontname = Helvetica]
+  ScienceResearch; GreyLit; Expert; Knowledge
+
+  node [shape = circle,
+        fixedsize = true,
+        width = 0.9] // sets as circles
+  WEbOFScience; Scholar; Scopus
+  
+  # several 'edge' statements
+  Knowledge->Expert->Knowledge
+  Knowledge->ScienceResearch
+  Knowledge->GreyLit->Knowledge
+  ScienceResearch->WEbOFScience
+  ScienceResearch->Scholar
+  ScienceResearch->Scopus
+}
+")
+```
+
+```{r}
+file_location <- system.file(
+  "extdata",
+  "avian_ecology_bibliography.ris",
+  package = "revtools")
+
+library(revtools)
+x <- read_bibliography(file_location, return_df = FALSE)
+str(head(x))
+str(head(x$Leal_2016_JouforNatCon[2]))
+```
+
+```{r eval=FALSE, include=FALSE}
+
+# grViz("
+# digraph boxes_and_circles {
+# 
+#   # a 'graph' statement
+#   graph [overlap = true, fontsize = 10]
+# 
+#   # several 'node' statements
+#   node [shape = triangle,
+#         fontname = Helvetica]
+#   Theory
+#   
+#   # several 'node' statements
+#   node [shape = box,
+#         fontname = Helvetica]
+#   Scale
+#   
+#   node [shape = box]
+#   dateTime; geolocation; counts;
+#   Intensity; Intensity;
+#   
+#   node [shape = circle]
+#   Temporal; Spatial; Genetics;
+# }")
+# #   # several 'edge' statements
+# edge []
+# Theory->Scale;Scale->Genetics; Scale->Spatial; Spatial->geolocation;
+# Scale->Temporal; Temporal->dateTime; Genetics->Intensity;
+# dateTime->counts; geolocation->counts; I#IS NOT
+# #Scale->Intensity; 
+
+```
+
+## Packages applied
 
 Here I explain the use or extention of this work in the future.
 

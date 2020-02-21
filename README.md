@@ -1,24 +1,24 @@
-This repository is an extention of Martin Westgate from the Australian National University. The aims of this project are to extend the revtools package developed from Martin's work to produce reproducible research and bibilography analysis for ecological modelling. 
+This repository is an extention of Martin Westgate from the Australian National University. 
+
+The aims of this project are to extend the revtools package developed from Martin's work to produce reproducible meta-research and an extended `sentiment analysis` for demographic modelling in NZ forest systems. 
 
 ## Additional to `revtools`
 
-Not much yet sorry. I am currently working on:
+*Not much yet sorry.* I am currently working on:
 
 - turning this into a gitbook in vignette file?
-- link with typora
+- link with online editor/shiny?
 
-Our concepts for extentions (Oct 2019):
+My concept for PFNZ extention (Oct 2019):
 
 - Collect bibliography from search engines like google scholar
 - Import references from a single paper and analysis
 - Create process diagrams for the workflow.
 - Link this with a database structure such as Zotero as an add-in
 
-For a complete introduction to revtools you can check out the [user manual](https://revtools.net/user_manual/1_introduction.html); but to get started now you can download revtools either from this site (development version) or CRAN (stable version) as follows:
-
 ## `revtools`
 
-<img align="left" height="120" src="https://github.com/mjwestgate/revtools_website/blob/master/assets/img/revtools_hex.png"><b>revtools v0.4.1</b>
+<img align="left" height="120" src="https://github.com/mjwestgate/revtools_website/blob/master/assets/img/revtools_hex.png"><b>revtools v0.4.1:For a complete introduction to revtools you can check out the [user manual](https://revtools.net/); but to get started now you can download revtools either from this site (development version) or CRAN (stable version) as follows:</b>
 
 Tools to support literature review and evidence synthesis in R, including import, de-duplication and interactive display of bibliographic data.
 
