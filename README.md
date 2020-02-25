@@ -1,6 +1,6 @@
-This repository is an extention of Martin Westgate from the Australian National University. 
+<img align="left" height="120" src="https://github.com/mjwestgate/revtools_website/blob/master/assets/img/revtools_hex.png"><b>revtools v0.4.1</b>
 
-The aims of this project are to extend the revtools package developed from Martin's work to produce reproducible meta-research and an extended `sentiment analysis` for demographic modelling in NZ forest systems. 
+The aims of this project are to extend the revtools package developed from Martin's lab above to produce reproducible meta-research and an extended `sentiment analysis` for demographic modelling in NZ forest systems. 
 
 ## Additional to `revtools`
 
@@ -20,7 +20,7 @@ My concept for PFNZ extention (Oct 2019):
 
 <img align="left" height="120" src="https://github.com/mjwestgate/revtools_website/blob/master/assets/img/revtools_hex.png"><b>revtools v0.4.1:For a complete introduction to revtools you can check out the [user manual](https://revtools.net/); but to get started now you can download revtools either from this site (development version) or CRAN (stable version) as follows:</b>
 
-Tools to support literature review and evidence synthesis in R, including import, de-duplication and interactive display of bibliographic data.
+Tools to support literature review and evidence synthesis in R, including import, de-duplication and interactive display of bibliographic data. For a complete introduction to revtools you can check out the [website](https://revtools.net/); but to get started now you can download revtools either from this site (development version) or CRAN (stable version) as follows:
 
 ```{r}
 install.packages("revtools") # install from CRAN
